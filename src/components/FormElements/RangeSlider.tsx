@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useFormStore from '../../hooks/useStore';
 
 interface RangeSliderProps {
   id: number;
@@ -11,6 +12,11 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ id, label, onRemove }) => {
   const [min, setMin] = useState<number | undefined>(undefined);
   const [max, setMax] = useState<number | undefined>(undefined);
   const [step, setStep] = useState<number | undefined>(undefined);
+  const updateElement = useFormStore((state) => state.updateElement);
+
+  useEffect(() => {
+    updateElement(id, { required, min, max, step });
+  }, [required, min, max, step]);
 
   return (
     <div className="p-2 mb-2 bg-white border rounded shadow">

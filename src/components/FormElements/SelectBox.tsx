@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useFormStore from '../../hooks/useStore';
 
 interface SelectBoxProps {
   id: number;
@@ -8,6 +9,11 @@ interface SelectBoxProps {
 
 const SelectBox: React.FC<SelectBoxProps> = ({ id, label, onRemove }) => {
   const [required, setRequired] = useState(false);
+  const updateElement = useFormStore((state) => state.updateElement);
+
+  const handleUpdate = () => {
+    updateElement(id, { required });
+  };
 
   return (
     <div className="p-2 mb-2 bg-white border rounded shadow">
@@ -23,7 +29,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ id, label, onRemove }) => {
         </label>
       </div>
       <button
-        onClick={() => onRemove(id)}
+        onClick={() => { onRemove(id); handleUpdate(); }}
         className="mt-2 p-1 bg-red-500 text-white rounded hover:bg-red-600"
       >
         Remove
